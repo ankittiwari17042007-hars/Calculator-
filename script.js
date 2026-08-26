@@ -5,6 +5,7 @@ let operation = undefined;
 
 const currentDisplay = document.getElementById("current");
 const previousDisplay = document.getElementById("previous");
+const historyList = document.getElementById("history-list");
 
 function appendNumber(number) {
     if (number === "." && currentNumber.includes(".")) {
@@ -56,9 +57,13 @@ function compute() {
 
         case "÷":
             if (current === 0) {
-                currentNumber = "Error";
-                previousNumber = "";
-                operation = undefined;
+                const calculation = `${previous} ${operation} ${current} = ${result}`;
+
+addToHistory(calculation);
+
+currentNumber = result.toString();
+previousNumber = "";
+operation = undefined;
                 updateDisplay();
                 return;
             }
@@ -142,3 +147,11 @@ document.addEventListener("keydown", function(event) {
     }
 
 });
+function addToHistory(calculation) {
+    const historyItem = document.createElement("div");
+
+    historyItem.classList.add("history-item");
+    historyItem.innerText = calculation;
+
+    historyList.prepend(historyItem);
+}
