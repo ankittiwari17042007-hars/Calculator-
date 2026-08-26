@@ -1,4 +1,3 @@
-
 let currentNumber = "";
 let previousNumber = "";
 let operation = undefined;
@@ -57,13 +56,9 @@ function compute() {
 
         case "÷":
             if (current === 0) {
-                const calculation = `${previous} ${operation} ${current} = ${result}`;
-
-addToHistory(calculation);
-
-currentNumber = result.toString();
-previousNumber = "";
-operation = undefined;
+                currentNumber = "Error";
+                previousNumber = "";
+                operation = undefined;
                 updateDisplay();
                 return;
             }
@@ -74,7 +69,15 @@ operation = undefined;
         case "%":
             result = previous % current;
             break;
+
+        default:
+            return;
     }
+
+    const calculation =
+        `${previous} ${operation} ${current} = ${result}`;
+
+    addToHistory(calculation);
 
     currentNumber = result.toString();
     previousNumber = "";
@@ -107,6 +110,16 @@ function updateDisplay() {
         previousDisplay.innerText = "";
     }
 }
+
+function addToHistory(calculation) {
+    const historyItem = document.createElement("div");
+
+    historyItem.classList.add("history-item");
+    historyItem.innerText = calculation;
+
+    historyList.prepend(historyItem);
+}
+
 document.addEventListener("keydown", function(event) {
 
     if (event.key >= "0" && event.key <= "9") {
@@ -147,11 +160,3 @@ document.addEventListener("keydown", function(event) {
     }
 
 });
-function addToHistory(calculation) {
-    const historyItem = document.createElement("div");
-
-    historyItem.classList.add("history-item");
-    historyItem.innerText = calculation;
-
-    historyList.prepend(historyItem);
-}
