@@ -102,3 +102,43 @@ function updateDisplay() {
         previousDisplay.innerText = "";
     }
 }
+document.addEventListener("keydown", function(event) {
+
+    if (event.key >= "0" && event.key <= "9") {
+        appendNumber(event.key);
+    }
+
+    if (event.key === ".") {
+        appendNumber(".");
+    }
+
+    if (event.key === "+") {
+        chooseOperation("+");
+    }
+
+    if (event.key === "-") {
+        chooseOperation("-");
+    }
+
+    if (event.key === "*") {
+        chooseOperation("×");
+    }
+
+    if (event.key === "/") {
+        event.preventDefault();
+        chooseOperation("÷");
+    }
+
+    if (event.key === "Enter" || event.key === "=") {
+        compute();
+    }
+
+    if (event.key === "Backspace") {
+        deleteNumber();
+    }
+
+    if (event.key === "Escape") {
+        clearDisplay();
+    }
+
+});
