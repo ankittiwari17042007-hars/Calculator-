@@ -1,4 +1,3 @@
-
 * {
     margin: 0;
     padding: 0;
@@ -99,27 +98,36 @@ button:active {
     background: #c0c0c0;
 }
 
-/* Mobile */
-@media (max-width: 400px) {
-    .calculator {
-        width: 95%;
-        padding: 15px;
-    }
-
-    button {
-        height: 60px;
-    }
-
-    #current {
-        font-size: 36px;
-    }
+/* History Button */
+.history-button {
+    width: 100%;
+    height: 50px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 12px;
+    background: #555;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
 }
+
+.history-button:hover {
+    background: #666;
+}
+
+/* History Panel */
 .history {
-    margin-top: 20px;
+    display: none;
+    margin-top: 15px;
     padding: 15px;
     background: #1c1c1c;
     border-radius: 15px;
     color: white;
+}
+
+.history.show {
+    display: block;
 }
 
 .history h3 {
@@ -142,94 +150,21 @@ button:active {
     text-align: right;
 }
 
-.history-button {
-    width: 100%;
-    height: 50px;
-    margin-top: 15px;
-    border: none;
-    border-radius: 12px;
-    background: #555;
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
+/* Mobile */
+@media (max-width: 400px) {
+
+    .calculator {
+        width: 95%;
+        padding: 15px;
+    }
+
+    button {
+        height: 60px;
+    }
+
+    #current {
+        font-size: 36px;
+    }
 }
 
-.history-button:hover {
-    background: #666;
-}
 
-.history {
-    display: none;
-    margin-top: 15px;
-    padding: 15px;
-    background: #1c1c1c;
-    border-radius: 15px;
-    color: white;
-}
-
-.history.show {
-    display: block;
-}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Calculator App</title>
-
-    <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-
-    <div class="calculator">
-
-        <div class="display">
-            <div id="previous"></div>
-            <div id="current">0</div>
-        </div>
-
-        <div class="buttons">
-
-            <button class="span-two" onclick="clearDisplay()">AC</button>
-            <button onclick="deleteNumber()">⌫</button>
-            <button class="operator" onclick="chooseOperation('%')">%</button>
-
-            <button onclick="appendNumber('7')">7</button>
-            <button onclick="appendNumber('8')">8</button>
-            <button onclick="appendNumber('9')">9</button>
-            <button class="operator" onclick="chooseOperation('÷')">÷</button>
-
-            <button onclick="appendNumber('4')">4</button>
-            <button onclick="appendNumber('5')">5</button>
-            <button onclick="appendNumber('6')">6</button>
-            <button class="operator" onclick="chooseOperation('×')">×</button>
-
-            <button onclick="appendNumber('1')">1</button>
-            <button onclick="appendNumber('2')">2</button>
-            <button onclick="appendNumber('3')">3</button>
-            <button class="operator" onclick="chooseOperation('-')">−</button>
-
-            <button onclick="appendNumber('0')">0</button>
-            <button onclick="appendNumber('.')">.</button>
-            <button class="equal" onclick="compute()">=</button>
-            <button class="operator" onclick="chooseOperation('+')">+</button>
-
-        </div>
-
-        <button class="history-button" onclick="toggleHistory()">
-    📜 History
-</button>
-
-<div class="history" id="history-panel">
-    <h3>Calculation History</h3>
-    <div id="history-list"></div>
-</div>
-    </div>
-
-    <script src="script.js"></script>
-
-</body>
-</html>
