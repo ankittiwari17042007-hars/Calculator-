@@ -9,7 +9,11 @@ const historyPanel = document.getElementById("history-panel");
 
 let history = JSON.parse(localStorage.getItem("calculatorHistory")) || [];
 
+
+// ================= CALCULATOR =================
+
 function appendNumber(number) {
+
     if (currentNumber === "Error") {
         currentNumber = "";
     }
@@ -19,10 +23,13 @@ function appendNumber(number) {
     }
 
     currentNumber += number;
+
     updateDisplay();
 }
 
+
 function chooseOperation(operator) {
+
     if (currentNumber === "" && previousNumber === "") {
         return;
     }
@@ -32,13 +39,17 @@ function chooseOperation(operator) {
     }
 
     operation = operator;
+
     previousNumber = currentNumber;
+
     currentNumber = "";
 
     updateDisplay();
 }
 
+
 function compute() {
+
     if (previousNumber === "" || currentNumber === "" || !operation) {
         return;
     }
@@ -49,6 +60,7 @@ function compute() {
     let result;
 
     switch (operation) {
+
         case "+":
             result = previous + current;
             break;
@@ -62,15 +74,20 @@ function compute() {
             break;
 
         case "÷":
+
             if (current === 0) {
+
                 currentNumber = "Error";
                 previousNumber = "";
                 operation = undefined;
+
                 updateDisplay();
+
                 return;
             }
 
             result = previous / current;
+
             break;
 
         case "%":
@@ -81,8 +98,10 @@ function compute() {
             return;
     }
 
+
     const calculation =
         `${previous} ${operation} ${current} = ${result}`;
+
 
     history.unshift(calculation);
 
@@ -91,16 +110,24 @@ function compute() {
         JSON.stringify(history)
     );
 
+
     displayHistory();
 
+
     currentNumber = result.toString();
+
     previousNumber = "";
+
     operation = undefined;
 
     updateDisplay();
 }
 
+
+// ================= CLEAR =================
+
 function clearDisplay() {
+
     currentNumber = "";
     previousNumber = "";
     operation = undefined;
@@ -108,117 +135,194 @@ function clearDisplay() {
     updateDisplay();
 }
 
+
 function deleteNumber() {
+
     currentNumber = currentNumber.slice(0, -1);
 
     updateDisplay();
 }
 
+
+// ================= DISPLAY =================
+
 function updateDisplay() {
-    currentDisplay.innerText = currentNumber || "0";
+
+    currentDisplay.innerText =
+        currentNumber || "0";
+
 
     if (operation && previousNumber !== "") {
+
         previousDisplay.innerText =
             previousNumber + " " + operation;
+
     } else {
+
         previousDisplay.innerText = "";
     }
 }
 
+
+// ================= HISTORY =================
+
 function displayHistory() {
+
     historyList.innerHTML = "";
 
+
     if (history.length === 0) {
-        historyList.innerHTML = "<p>No history yet</p>";
+
+        historyList.innerHTML =
+            "<p>No history yet</p>";
+
         return;
     }
 
+
     history.forEach(function(calculation) {
-        const item = document.createElement("div");
+
+        const item =
+            document.createElement("div");
 
         item.className = "history-item";
+
         item.innerText = calculation;
 
         historyList.appendChild(item);
     });
 }
 
+
 function toggleHistory() {
+
     historyPanel.classList.toggle("show");
 
     displayHistory();
 }
+
+
 function clearHistory() {
+
     history = [];
 
     localStorage.removeItem("calculatorHistory");
 
     displayHistory();
 }
+
+
+// ================= DARK / LIGHT MODE =================
+
 function toggleTheme() {
+
     document.body.classList.toggle("light-mode");
 
-    const themeButton = document.querySelector(".theme-button");
+    const themeButton =
+        document.querySelector(".theme-button");
+
 
     if (document.body.classList.contains("light-mode")) {
-        themeButton.innerText = "🌙 Dark Mode";
-        localStorage.setItem("calculatorTheme", "light");
-    } else {
-        themeButton.innerText = "☀️ Light Mode";
-        localStorage.setItem("calculatorTheme", "dark");
-    }
 
+        themeButton.innerText =
+            "🌙 Dark Mode";
+
+        localStorage.setItem(
+            "calculatorTheme",
+            "light"
+        );
+
+    } else {
+
+        themeButton.innerText =
+            "☀️ Light Mode";
+
+        localStorage.setItem(
+            "calculatorTheme",
+            "dark"
+        );
+    }
+}
+
+
+// ================= LOAD SAVED DATA =================
 
 displayHistory();
+
+
+if (localStorage.getItem("calculatorTheme") === "light") {
+
+    document.body.classList.add("light-mode");
+
+    document.querySelector(".theme-button").innerText =
+        "🌙 Dark Mode";
+}
+
+
+// ================= KEYBOARD =================
 
 document.addEventListener("keydown", function(event) {
 
     if (event.key >= "0" && event.key <= "9") {
+
         appendNumber(event.key);
     }
 
+
     if (event.key === ".") {
+
         appendNumber(".");
     }
 
+
     if (event.key === "+") {
+
         chooseOperation("+");
     }
 
+
     if (event.key === "-") {
+
         chooseOperation("-");
     }
 
+
     if (event.key === "*") {
+
         chooseOperation("×");
     }
 
+
     if (event.key === "/") {
+
         event.preventDefault();
+
         chooseOperation("÷");
     }
 
-    if (event.key === "Enter" || event.key === "=") {
+
+    if (event.key === "%") {
+
+        chooseOperation("%");
+    }
+
+
+    if (event.key === "Enter" ||
+        event.key === "=") {
+
         compute();
     }
 
+
     if (event.key === "Backspace") {
+
         deleteNumber();
     }
 
+
     if (event.key === "Escape") {
+
         clearDisplay();
-    }
-    function clearHistory() {
-    history = [];
-
-    localStorage.removeItem("calculatorHistory");
-
-    displayHistory();
-    }
-    if (localStorage.getItem("calculatorTheme") === "light") {
-    document.body.classList.add("light-mode");
-    document.querySelector(".theme-button").innerText = "🌙 Dark Mode";
     }
 
 });
