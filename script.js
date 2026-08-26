@@ -5,6 +5,9 @@ let operation = undefined;
 const currentDisplay = document.getElementById("current");
 const previousDisplay = document.getElementById("previous");
 const historyList = document.getElementById("history-list");
+const historyPanel = document.getElementById("history-panel");
+
+let history = JSON.parse(localStorage.getItem("calculatorHistory")) || [];
 
 function appendNumber(number) {
     if (currentNumber === "Error") {
@@ -81,7 +84,14 @@ function compute() {
     const calculation =
         `${previous} ${operation} ${current} = ${result}`;
 
-    addToHistory(calculation);
+    history.unshift(calculation);
+
+    localStorage.setItem(
+        "calculatorHistory",
+        JSON.stringify(history)
+    );
+
+    displayHistory();
 
     currentNumber = result.toString();
     previousNumber = "";
@@ -115,20 +125,31 @@ function updateDisplay() {
     }
 }
 
-function addToHistory(calculation) {
-    const historyItem = document.createElement("div");
+function displayHistory() {
+    historyList.innerHTML = "";
 
-    historyItem.classList.add("history-item");
-    historyItem.innerText = calculation;
+    if (history.length === 0) {
+        historyList.innerHTML = "<p>No history yet</p>";
+        return;
+    }
 
-    historyList.prepend(historyItem);
+    history.forEach(function(calculation) {
+        const item = document.createElement("div");
+
+        item.className = "history-item";
+        item.innerText = calculation;
+
+        historyList.appendChild(item);
+    });
 }
 
 function toggleHistory() {
-    const historyPanel = document.getElementById("history-panel");
-
     historyPanel.classList.toggle("show");
+
+    displayHistory();
 }
+
+displayHistory();
 
 document.addEventListener("keydown", function(event) {
 
