@@ -7,6 +7,10 @@ const previousDisplay = document.getElementById("previous");
 const historyList = document.getElementById("history-list");
 
 function appendNumber(number) {
+    if (currentNumber === "Error") {
+        currentNumber = "";
+    }
+
     if (number === "." && currentNumber.includes(".")) {
         return;
     }
@@ -120,6 +124,12 @@ function addToHistory(calculation) {
     historyList.prepend(historyItem);
 }
 
+function toggleHistory() {
+    const historyPanel = document.getElementById("history-panel");
+
+    historyPanel.classList.toggle("show");
+}
+
 document.addEventListener("keydown", function(event) {
 
     if (event.key >= "0" && event.key <= "9") {
@@ -160,8 +170,3 @@ document.addEventListener("keydown", function(event) {
     }
 
 });
-function toggleHistory() {
-    const historyPanel = document.getElementById("history-panel");
-
-    historyPanel.classList.toggle("show");
-}
