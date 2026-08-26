@@ -148,6 +148,13 @@ function toggleHistory() {
 
     displayHistory();
 }
+function clearHistory() {
+    history = [];
+
+    localStorage.removeItem("calculatorHistory");
+
+    displayHistory();
+}
 
 displayHistory();
 
