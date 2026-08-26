@@ -160,3 +160,8 @@ document.addEventListener("keydown", function(event) {
     }
 
 });
+function toggleHistory() {
+    const historyPanel = document.getElementById("history-panel");
+
+    historyPanel.classList.toggle("show");
+}
