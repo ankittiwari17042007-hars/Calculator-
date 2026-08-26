@@ -189,5 +189,12 @@ document.addEventListener("keydown", function(event) {
     if (event.key === "Escape") {
         clearDisplay();
     }
+    function clearHistory() {
+    history = [];
+
+    localStorage.removeItem("calculatorHistory");
+
+    displayHistory();
+    }
 
 });
