@@ -1,1 +1,104 @@
 
+let currentNumber = "";
+let previousNumber = "";
+let operation = undefined;
+
+const currentDisplay = document.getElementById("current");
+const previousDisplay = document.getElementById("previous");
+
+function appendNumber(number) {
+    if (number === "." && currentNumber.includes(".")) {
+        return;
+    }
+
+    currentNumber += number;
+    updateDisplay();
+}
+
+function chooseOperation(operator) {
+    if (currentNumber === "" && previousNumber === "") {
+        return;
+    }
+
+    if (currentNumber !== "" && previousNumber !== "") {
+        compute();
+    }
+
+    operation = operator;
+    previousNumber = currentNumber;
+    currentNumber = "";
+
+    updateDisplay();
+}
+
+function compute() {
+    if (previousNumber === "" || currentNumber === "" || !operation) {
+        return;
+    }
+
+    const previous = parseFloat(previousNumber);
+    const current = parseFloat(currentNumber);
+
+    let result;
+
+    switch (operation) {
+        case "+":
+            result = previous + current;
+            break;
+
+        case "-":
+            result = previous - current;
+            break;
+
+        case "×":
+            result = previous * current;
+            break;
+
+        case "÷":
+            if (current === 0) {
+                currentNumber = "Error";
+                previousNumber = "";
+                operation = undefined;
+                updateDisplay();
+                return;
+            }
+
+            result = previous / current;
+            break;
+
+        case "%":
+            result = previous % current;
+            break;
+    }
+
+    currentNumber = result.toString();
+    previousNumber = "";
+    operation = undefined;
+
+    updateDisplay();
+}
+
+function clearDisplay() {
+    currentNumber = "";
+    previousNumber = "";
+    operation = undefined;
+
+    updateDisplay();
+}
+
+function deleteNumber() {
+    currentNumber = currentNumber.slice(0, -1);
+
+    updateDisplay();
+}
+
+function updateDisplay() {
+    currentDisplay.innerText = currentNumber || "0";
+
+    if (operation && previousNumber !== "") {
+        previousDisplay.innerText =
+            previousNumber + " " + operation;
+    } else {
+        previousDisplay.innerText = "";
+    }
+}
