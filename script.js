@@ -155,6 +155,19 @@ function clearHistory() {
 
     displayHistory();
 }
+function toggleTheme() {
+    document.body.classList.toggle("light-mode");
+
+    const themeButton = document.querySelector(".theme-button");
+
+    if (document.body.classList.contains("light-mode")) {
+        themeButton.innerText = "🌙 Dark Mode";
+        localStorage.setItem("calculatorTheme", "light");
+    } else {
+        themeButton.innerText = "☀️ Light Mode";
+        localStorage.setItem("calculatorTheme", "dark");
+    }
+
 
 displayHistory();
 
@@ -202,6 +215,10 @@ document.addEventListener("keydown", function(event) {
     localStorage.removeItem("calculatorHistory");
 
     displayHistory();
+    }
+    if (localStorage.getItem("calculatorTheme") === "light") {
+    document.body.classList.add("light-mode");
+    document.querySelector(".theme-button").innerText = "🌙 Dark Mode";
     }
 
 });
